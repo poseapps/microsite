@@ -1,0 +1,19 @@
+{
+  "name": "microsite",
+  "version": "1.0.0",
+  "main": "functions/server.js",
+  "repository": "https://github.com/After-Pose/microsite.git",
+  "author": "Michael Gault",
+  "license": "MIT",
+  "scripts": {
+    "build": "netlify-lambda build express",
+    "deploy": "netlify deploy"
+  },
+  "dependencies": {
+    "axios": "^0.23.0",
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "netlify-lambda": "^2.0.14",
+    "serverless-http": "^2.7.0"
+  }
+}
