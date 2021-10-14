@@ -28,11 +28,14 @@ router.get('/:uid/:photoId', async (req, res) => {
     });
     res.write(rendered);
   }
-  catch {
+  catch (e) {
+    console.error(e.message)
     res.writeHead(200, { 
-      'Content-Type': 'text/plain'
+      'Content-Type': 'text/html'
     });
-    res.write("There was an error loading your after pose")
+    res.write("There was an error loading your after pose");
+    res.write("<br><br>");
+    res.write(e.message);
   }
 
   res.end();
