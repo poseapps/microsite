@@ -9,4 +9,6 @@ Routes
 ===
 `/` - Redirects to [https://poseapps.com](https://poseapps.com)
 
+`/:shortId` - Redirects short URLs to Microsite
+
 `/:userId/:photoId` - Displays Photo and Microsite
