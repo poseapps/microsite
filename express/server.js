@@ -13,20 +13,32 @@ const http = axios.create({
 })
 
 const router = express.Router();
+
+// This redirect could be handled by Netlify
+// but this can use env variables if needed 
+router.get('/:shortId', (req, res) => {
+  res.redirect(`${API_URL}/short/${req.params.shortId}`)
+})
+
 router.get('/:uid/:photoId', async (req, res) => {
   try {
     const response = await http.get(`/microsite/${req.params.uid}/${req.params.photoId}`)
     const fullUrl = req.protocol + '://' + req.hostname + req.originalUrl;
+
+    const microsite = response.data;
+    if (!microsite) microsite = {};
+    if (!microsite.settings) microsite.settings = {};
+
     const rendered = await ejs.renderFile("./views/index.ejs", {
       location: fullUrl,
       contentUrl: CDN_URL,
       ...response.data
     });
 
-    res.writeHead(200, { 
-      'Content-Type': 'text/html'
-    });
-    res.write(rendered);
+    res
+    .contentType('text/html')
+    .status(200)
+    .send(rendered)
   }
   catch (e) {
     console.error(e.message)
@@ -36,17 +48,9 @@ router.get('/:uid/:photoId', async (req, res) => {
     res.write("There was an error loading your after pose");
     res.write("<br><br>");
     res.write(e.message);
+    res.end();
   }
 
-  res.end();
-})
-
-router.get('/:uid/:photoId/echo', async (req, res) => {
-  res.writeHead(200, { 
-    'Content-Type': 'text/plain'
-  });
-  res.write(`${req.params.uid} - ${req.params.photoId}`);
-  res.end();
 })
 
 app.use('/', router);
