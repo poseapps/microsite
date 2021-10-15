@@ -3,7 +3,7 @@
 
 This is a Netlify serverless function for displaying After Pose images from the After Pose API using express as a webserver and ejs for templating.
 
-Deployment: [https:photos.afterpose.com](https:photos.afterpose.com)
+Deployment: [https://photos.afterpose.com](https://photos.afterpose.com)
 
 Routes
 ===
