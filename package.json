@@ -2,7 +2,7 @@
   "name": "microsite",
   "version": "1.0.0",
   "main": "functions/server.js",
-  "repository": "https://github.com/After-Pose/microsite.git",
+  "repository": "https://github.com/poseapps/microsite.git",
   "author": "Michael Gault",
   "license": "MIT",
   "scripts": {
