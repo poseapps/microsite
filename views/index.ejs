@@ -16,10 +16,10 @@
   <div 
     class="grids-container"
     style="
-      --background-color: <%= settings.backgroundColor ? settings.backgroundColor : null %>;
+      --background-color: <%= settings.backgroundColor ? settings.backgroundColor : "#ffffff" %>;
       --background-image: url(<%= backgroundUrl ? backgroundUrl : null %>);
-      --decoration-color: <%= settings.decorationColor ? settings.decorationColor : null %>;
-      --decoration-area: <%= settings.decorationArea ? settings.decorationArea : null %>;
+      --decoration-color: <%= settings.decorationColor ? settings.decorationColor : "#000000" %>;
+      --decoration-area: <%= settings.decorationArea ? settings.decorationArea : "photo" %>;
       width: 100%;
       height: 100%;
     ">
