@@ -1,22 +1,20 @@
 {
   "name": "microsite",
   "version": "1.0.0",
-  "main": "functions/server.js",
+  "main": "functions/microsite.js",
   "repository": "https://github.com/poseapps/microsite.git",
-  "author": "Michael Gault",
+  "author": "Michael Gault Jr.",
   "license": "MIT",
   "scripts": {
-    "dev": "cross-env API_URL=http://localhost:5000/api/v1 CDN_URL=https://mystaging.afterpose.com netlify dev",
+    "dev": "netlify dev",
     "deploy": "netlify deploy"
   },
   "dependencies": {
     "@netlify/functions": "^1.6.0",
     "axios": "^0.23.0",
-    "ejs": "^3.1.6",
-    "express": "^4.17.1",
-    "serverless-http": "^2.7.0"
+    "ejs": "^3.1.6"
   },
   "devDependencies": {
-    "cross-env": "^7.0.3"
+    "@types/ejs": "^3.1.2"
   }
 }
