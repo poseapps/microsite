@@ -5,12 +5,41 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>After Pose</title>
   <link rel="stylesheet" href="<%= contentUrl %>/build/bundle.css" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
   <link rel="icon" type="image/png" href="<%= contentUrl %>/favicon.png" />
 
-  <meta property="og:image" content="<%= url %>">
+  <!-- Primary Meta Tags -->
+  <title>After Pose — View your After Pose</title>
+  <meta name="title" content="After Pose — View your After Pose" />
+  <meta name="description" content="View, Share, and Download your After Pose!" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="<%= location %>" />
+  <meta property="og:title" content="After Pose — View your After Pose" />
+  <meta property="og:description" content="View, Share, and Download your After Pose!" />
+  <meta property="og:image" content="<%= url %>" />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="<%= location %>" />
+  <meta property="twitter:title" content="After Pose — View your After Pose" />
+  <meta property="twitter:description" content="View, Share, and Download your After Pose!" />
+  <meta property="twitter:image" content="<%= url %>" />
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=<%= gtag %>"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    const gtagConfig = {
+      'account_id': "<%= accountId %>",
+      'photo_id': "<%= photoId %>",
+    }
+    gtag('config', '<%= gtag %>', gtagConfig);
+  </script>
 </head>
 
 <body>

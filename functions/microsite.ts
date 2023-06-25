@@ -4,6 +4,7 @@ import axios from 'axios';
 
 const API_URL = process.env["API_URL"] ?? "https://my.afterpose.com/api/v1";
 const CDN_URL = process.env["CDN_URL"] ?? "https://my.afterpose.com";
+const GTAG = process.env["GTAG"] ?? "G-YK8MW2FYKN";
 
 const http = axios.create({
   baseURL: API_URL,
@@ -32,6 +33,9 @@ const handler: Handler = async (event: HandlerEvent, context: HandlerContext) =>
       const rendered = await renderFile("./views/index.ejs", {
         location: event.rawUrl,
         contentUrl: CDN_URL,
+        gtag: GTAG,
+        accountId: segments[0],
+        photoId: segments[1],
         ...microsite,
       });
   
