@@ -6,125 +6,236 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>After Pose</title>
   <link rel="stylesheet" href="<%= contentUrl %>/build/bundle.css" />
-  <link rel="stylesheet" href="//cdn.materialdesignicons.com/5.4.55/css/materialdesignicons.min.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
   <link rel="icon" type="image/png" href="<%= contentUrl %>/favicon.png" />
 
   <meta property="og:image" content="<%= url %>">
 </head>
 <body>
-  <div 
-    class="grids-container"
-    style="
-      --background-color: <%= settings.backgroundColor ? settings.backgroundColor : "#ffffff" %>;
-      --background-image: url(<%= backgroundUrl ? backgroundUrl : null %>);
-      --decoration-color: <%= settings.decorationColor ? settings.decorationColor : "#000000" %>;
-      --decoration-area: <%= settings.decorationArea ? settings.decorationArea : "photo" %>;
-      width: 100%;
-      height: 100%;
-    ">
-    <div class="grid-display">
-      <div class="grid-decoration"></div>
-      <img class="grid-logo" src="<%= logoUrl ? logoUrl : `${contentUrl}/images/new-assets/After-Pose-Long-Black.png` %>" alt="microsite-logo" />
-      <img class="grid-photo" alt="Your After Pose" src="<%= url %>" />
-      <div class="grid-actions">
-        <div class="flex-socials">
-          <% if (settings.socialFacebook || false) { %>
-            <a
-              title="Facebook"
-              style="color: white; border-color: transparent; background-color: #3b5998;" 
-              class="button is-danger is-round is-medium"
-              target="_blank"
-              href="http://www.facebook.com/sharer.php?u=<%= location %>">
-              <span class="icon is-large">
-                <i class="mdi mdi-36px mdi-facebook"></i>
-              </span>
-            </a>
-          <% } %>
-          <% if (settings.socialTwitter || false) { %>
-            <a
-              title="Twitter"
-              style="color: white; border-color: transparent; background-color: #55acee" 
-              class="button is-danger is-round is-medium"
-              target="_blank"
-              href="https://twitter.com/intent/tweet?text=<%= settings.socialMessage ? settings.socialMessage : "" %>&url=<%= location %>">
-              <span class="icon is-large">
-                <i class="mdi mdi-36px mdi-twitter"></i>
-              </span>
-            </a>
-          <% } %> 
-        </div>
-        <% if (settings.actionUrl && settings.actionText) { %> 
-          <div class="flex-socials">
-            <a
-              title="Call to Action" 
-              style="color: var(--background-color); border-color: transparent; background-color: var(--decoration-color);" 
-              class="button is-danger is-rounded is-medium"
-              target="_blank"
-              href="<%= settings.actionUrl %>">
-                <%= settings.actionText ? settings.actionText : null %> 
-              </a>
+  <script>
+    const prefersDarkMode = window.matchMedia("(prefers-color-scheme:dark)").matches; // true
+    console.log(prefersDarkMode);
+    document.body.classList.add(prefersDarkMode ? 'is-dark' : 'is-light');
+  </script>
+  <header>
+    <!-- Mobile Navbar -->
+    <nav class="navbar mobile-navbar no-shadow is-hidden-desktop is-hidden-tablet" aria-label="main navigation">
+      <div class="container">
+        <div class="navbar-brand">
+          <div class="brand-start">
           </div>
-        <% } %> 
+          <a class="navbar-item is-brand" href="index.html">
+            <img class="light-image" src="<%= logoUrl ? logoUrl : `${contentUrl}/images/after-pose-logo-dark-alt.png` %>" alt="Dark Logo" />
+            <img class="dark-image" src="<%= logoUrl ? logoUrl : `${contentUrl}/images/after-pose-logo-light-alt.png` %>" alt="Light Logo" />
+          </a>
+          <div class="brand-end">
+          </div>
+        </div>
+      </div>
+    </nav>
+    <!-- Desktop Navbar -->
+    <div class="webapp-navbar mobile-hidden">
+      <div class="webapp-navbar-inner">
+        <div class="left">
+          <a href="/" class="brand">
+            <img class="light-image" src="<%= logoUrl ? logoUrl : `${contentUrl}/images/after-pose-logo-dark-alt.png` %>" alt="Dark Logo" />
+            <img class="dark-image" src="<%= logoUrl ? logoUrl : `${contentUrl}/images/after-pose-logo-light-alt.png` %>" alt="Light Logo" />
+          </a>
+        </div>
       </div>
     </div>
-  </div>
+  </header>
+
+  <main>
+    <section>
+      <img class="photo" alt="Your After Pose" src="<%= url %>" />
+    </section>
+    <section class="limited">
+      <div class="flex-buttons">
+        <button
+          onclick="download()"            
+          class="button is-primary is-medium is-fullwidth">
+          <span class="ms-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z" />
+            </svg>
+          </span>
+          Download
+        </button>
+        <button
+          onclick="share()"            
+          class="button is-primary is-medium is-fullwidth">
+          <span class="ms-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M18,16.08C17.24,16.08 16.56,16.38 16.04,16.85L8.91,12.7C8.96,12.47 9,12.24 9,12C9,11.76 8.96,11.53 8.91,11.3L15.96,7.19C16.5,7.69 17.21,8 18,8A3,3 0 0,0 21,5A3,3 0 0,0 18,2A3,3 0 0,0 15,5C15,5.24 15.04,5.47 15.09,5.7L8.04,9.81C7.5,9.31 6.79,9 6,9A3,3 0 0,0 3,12A3,3 0 0,0 6,15C6.79,15 7.5,14.69 8.04,14.19L15.16,18.34C15.11,18.55 15.08,18.77 15.08,19C15.08,20.61 16.39,21.91 18,21.91C19.61,21.91 20.92,20.61 20.92,19A2.92,2.92 0 0,0 18,16.08Z" />
+            </svg>
+          </span>
+            Share
+        </button>
+      </div>
+    </section>
+  </main>
+  <% if (usedProducts?.length) { %>
+    <footer>
+      <section class="limited">
+        <hr class="is-divider" />
+        <h3 class="subtitle is-size-3 has-text-weight-semibold has-text-centered mb-2">Products Used</h3>
+        <div class="products">
+          <% usedProducts.forEach(product => { %>
+            <a class="product" href="<%= product.url %>" target="_blank">
+              <img src="<%= product.imageUrl %>" alt="<%= product.name %>">
+              <span class="product-text has-text-centered has-text-weight-semibold is-size-6"><%= product.name %></span>
+            </a>
+          <% }) %>
+        </div>
+      </section>
+    </footer>
+  <% } %>
+
+  <script>
+    const url = '<%= url %>'
+
+    async function share() {
+      try {
+        const extension = new URL(url).pathname.split('/').at(-1).split('.').at(-1);
+        const response = await fetch(url);
+        const buffer = await response.arrayBuffer();
+        const photo = new File([buffer], "afterpose." + extension, { type: response.headers.get('content-type') });
+        const files = [photo];
+        if (navigator.canShare({ files: files })) {
+          await navigator.share({
+            title: "After Pose",
+            text: '<%= settings.socialMessage ? settings.socialMessage : "" %>',
+            files: files
+          });
+        } else if (navigator.canShare({ url: url })) {
+          await navigator.share({
+            title: "After Pose",
+            text: '<%= settings.socialMessage ? settings.socialMessage : "" %>',
+            url: url,
+          });
+        } else {
+          alert("This device/browser does not support sharing")
+        }
+      } catch (err) {
+        console.error(err);
+        alert("Error sharing. Please try again later.")
+      }
+    }
+
+    function download() {
+      const extension = new URL(url).pathname.split('/').at(-1).split('.').at(-1);
+      
+      fetch(url)
+        .then(resp => resp.blob())
+        .then(blob => {
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.style.display = 'none';
+          a.href = url;
+          // the filename you want
+          a.download = 'afterpose.' + extension;
+          document.body.appendChild(a);
+          a.click();
+          window.URL.revokeObjectURL(url);
+        })
+    }
+  </script>
 
   <style>
-    .grid-display {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      background-color: var(--background-color);
-      background-image: var(--background-image);
-      background-size: contain;
-      display: grid;
-      row-gap: 2rem;
-      justify-items: center;
-      align-items: center;
-      grid-template-columns: 1fr 2fr 1fr;
-      grid-template-rows: 15% 55% 30%;
-      grid-template-areas: 
-        "logo logo logo"
-        "photo photo photo"
-        ". actions .";
+    html {
+      background-color: unset;
     }
-    .grid-decoration {
-      grid-area: var(--decoration-area);
+
+    .ms-icon {
+      fill: white;
+      width: 20px;
+      height: 20px;
+      margin-right: 4px;
+    }
+
+    .button {
+      color: var(--background-color); 
+      fill: var(--background-color); 
+      border-color: transparent; 
       background-color: var(--decoration-color);
-      max-height: 25vh;
-      width: 100%;
-      height: 100%;
     }
-    .grid-logo {
-      grid-area: logo;
-      height: 100%;
-      width: auto;
-      margin-top: 2rem;
+
+    .navbar {
+      position: relative;
+      border-bottom: 1px solid #ededed
     }
-    .grid-photo {
-      grid-area: photo;
-      height: 100%;
+    
+    .is-divider {
+      margin: 0.75rem 0;
     }
-    .grid-actions {
-      grid-area: actions;
-      align-self:flex-start;
+
+    body.is-dark .navbar {
+      border-color: #252529
     }
-    .flex-socials {
+
+    main, footer {
       display: flex;
-      justify-content: center;
-      margin-bottom: 1rem;
-      gap: 1rem;
+      flex-direction: column;
+      align-items: center;
     }
-    @media screen and (max-width: 1024px) {
-      .grid-display {
-        grid-template-columns: 0 1fr 0;
-      }
-      .grid-photo {
-        max-height: 100%;
-        max-width: 90vw;
-        height: auto;
-        width: auto;
+
+    .photo {
+      max-height: 80vh;
+    }
+
+    .flex-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .limited {
+      padding: 8px;
+      max-width: 600px;
+      width: 100%;
+    }
+
+    .products {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .product {
+      display: flex;
+      position: relative;
+      aspect-ratio: 1;
+      max-height: 192px;
+      justify-content: center;
+      background-color: rgba(0, 0, 0, 0.25);
+      border-radius: 8px;
+      padding: 8px;
+      flex: 1 1 128px;
+      padding-bottom: 32px;
+    }
+
+    .product img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    .product span {
+      position: absolute;
+      color: white;
+      bottom: 0;
+      padding: 8px 2px;
+
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: 128px;
+    }
+    @media (max-width: 480px) {
+      .products {
+        grid-template-columns: repeat(2, 1fr);
       }
     }
   </style>

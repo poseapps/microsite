@@ -6,14 +6,17 @@
   "author": "Michael Gault",
   "license": "MIT",
   "scripts": {
-    "build": "netlify-lambda build express",
+    "dev": "cross-env API_URL=http://localhost:5000/api/v1 CDN_URL=https://mystaging.afterpose.com netlify dev",
     "deploy": "netlify deploy"
   },
   "dependencies": {
+    "@netlify/functions": "^1.6.0",
     "axios": "^0.23.0",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
-    "netlify-lambda": "^2.0.14",
     "serverless-http": "^2.7.0"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3"
   }
 }
