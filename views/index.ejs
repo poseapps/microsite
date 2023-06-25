@@ -16,7 +16,6 @@
 <body>
   <script>
     const prefersDarkMode = window.matchMedia("(prefers-color-scheme:dark)").matches; // true
-    console.log(prefersDarkMode);
     document.body.classList.add(prefersDarkMode ? 'is-dark' : 'is-light');
   </script>
   <header>
@@ -103,12 +102,11 @@
         const response = await fetch(url);
         const buffer = await response.arrayBuffer();
         const photo = new File([buffer], "afterpose." + extension, { type: response.headers.get('content-type') });
-        const files = [photo];
-        if (navigator.canShare({ files: files })) {
+        if (navigator.canShare({ file: photo })) {
           await navigator.share({
             title: "After Pose",
             text: '<%= settings.socialMessage ? settings.socialMessage : "" %>',
-            files: files
+            file: photo
           });
         } else if (navigator.canShare({ url: url })) {
           await navigator.share({
