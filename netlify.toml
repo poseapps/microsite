@@ -1,15 +1,14 @@
 [build]
-  command = "npm install && npm run build"
-  functions = "functions"
+  command = "npm run build"
 
 [functions]
   included_files = ["views/**", "public/**"]
 
 [[redirects]]
   from = "/"
-  to = "https://poseapps.com"
+  to = "https://afterpose.com"
 
 [[redirects]]
   from = "/*"
-  to = "/.netlify/functions/server/:splat"
+  to = "/.netlify/functions/microsite/:splat"
   status = 200
