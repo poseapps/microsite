@@ -25,9 +25,9 @@ const handler: Handler = async (event: HandlerEvent, context: HandlerContext) =>
     try {
       const response = await http.get(`/microsite/${segments[0]}/${segments[1]}`);
       
-      const microsite = await response.data ?? {
-        settings: {}
-      };
+      const microsite: any = await response.data ?? {};
+      microsite.settings ??= {}
+      microsite.usedProducts ??= [];
   
       const rendered = await renderFile("./views/index.ejs", {
         location: event.rawUrl,

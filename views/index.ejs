@@ -97,29 +97,22 @@
     const url = '<%= url %>'
 
     async function share() {
-      try {
-        const extension = new URL(url).pathname.split('/').at(-1).split('.').at(-1);
-        const response = await fetch(url);
-        const buffer = await response.arrayBuffer();
-        const photo = new File([buffer], "afterpose." + extension, { type: response.headers.get('content-type') });
-        if (navigator.canShare({ file: photo })) {
-          await navigator.share({
-            title: "After Pose",
-            text: '<%= settings.socialMessage ? settings.socialMessage : "" %>',
-            file: photo
-          });
-        } else if (navigator.canShare({ url: url })) {
-          await navigator.share({
-            title: "After Pose",
-            text: '<%= settings.socialMessage ? settings.socialMessage : "" %>',
-            url: url,
-          });
-        } else {
-          alert("This device/browser does not support sharing")
+      if (navigator.share) {
+        try {
+          if (navigator.canShare({ url: window.location.href })) {
+            await navigator.share({
+              title: "After Pose",
+              text: '<%= settings.socialMessage ? settings.socialMessage : "Look at my After Pose!" %>',
+              url: window.location.href,
+            });
+          }
+        } catch (err) {
+          if (e.toString().includes('AbortError')) return;
+          console.error(err);
+          alert("Error sharing. Please try again later.");
         }
-      } catch (err) {
-        console.error(err);
-        alert("Error sharing. Please try again later.")
+      } else {
+        alert("This browser does not support sharing.")
       }
     }
 
@@ -134,7 +127,7 @@
           a.style.display = 'none';
           a.href = url;
           // the filename you want
-          a.download = 'afterpose.' + extension;
+          a.download = `your-afterpose-${Date.now()}.` + extension;
           document.body.appendChild(a);
           a.click();
           window.URL.revokeObjectURL(url);
