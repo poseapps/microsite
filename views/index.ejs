@@ -134,6 +134,7 @@
               text: '<%= settings.socialMessage ? settings.socialMessage : "Look at my After Pose!" %>',
               url: window.location.href,
             });
+            gtag("event", "shared");
           }
         } catch (err) {
           if (e.toString().includes('AbortError')) return;
