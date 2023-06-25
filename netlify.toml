@@ -1,6 +1,3 @@
-[build]
-  command = "npm run build"
-
 [functions]
   included_files = ["views/**", "public/**"]
 
