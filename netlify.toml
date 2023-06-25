@@ -2,18 +2,6 @@
   node_bundler = "esbuild"
   included_files = ["views/**"]
 
-[context.dev.environment]
-  API_URL = "http://localhost:5000/api/v1"
-  CDN_URL = "https://mystaging.afterpose.com"
-
-[context.staging.environment]
-  API_URL = "https://mystaging.afterpose.com/api/v1"
-  CDN_URL = "https://mystaging.afterpose.com"
-
-[context.staging.production]
-  API_URL = "https://my.afterpose.com/api/v1"
-  CDN_URL = "https://my.afterpose.com"
-
 [[redirects]]
   from = "/"
   to = "https://afterpose.com"
