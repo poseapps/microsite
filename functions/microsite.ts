@@ -10,11 +10,37 @@ const http = axios.create({
   baseURL: API_URL,
 })
 
+async function renderMicrosite(url: string, microsite: Microsite, accountId?: string) {
+  const rendered = await renderFile("./views/index.ejs", {
+    url: url,
+    cdnUrl: CDN_URL,
+    gtag: GTAG,
+    accountId: accountId,
+    iconUrl: microsite.settings?.themes?.light?.iconUrl ?? microsite.settings?.themes?.dark?.iconUrl ?? null,
+    ...microsite,
+  }, { async: true });
+
+  return {
+    statusCode: 200,
+    headers: {
+      'content-type': 'text/html'
+    },
+    body: rendered
+  }
+}
+
 // @ts-ignore
 const handler: Handler = async (event: HandlerEvent, context: HandlerContext) => {
   const segments = event.path.split('/').filter(x => Boolean(x));
 
   if (segments.length == 1) {
+    // TODO: implement preview, has default photo
+    // TODO: settings/theme can be provided via json query string
+    // if (segments[0] == "preview") {
+    //   return renderMicrosite(event.rawUrl, {
+
+    //   })
+    // }
     return {
       statusCode: 301,
       headers: {
@@ -27,25 +53,10 @@ const handler: Handler = async (event: HandlerEvent, context: HandlerContext) =>
       const response = await http.get(`/microsite/${segments[0]}/${segments[1]}`);
       
       const microsite: any = await response.data ?? {};
+      microsite.photo ??= {};
       microsite.settings ??= {}
       microsite.usedProducts ??= [];
-  
-      const rendered = await renderFile("./views/index.ejs", {
-        location: event.rawUrl,
-        contentUrl: CDN_URL,
-        gtag: GTAG,
-        accountId: segments[0],
-        photoId: segments[1],
-        ...microsite,
-      });
-  
-      return {
-        statusCode: 200,
-        headers: {
-          'content-type': 'text/html'
-        },
-        body: rendered
-      }
+      return await renderMicrosite(event.rawUrl, microsite);
     }
     catch (e) {
       console.error(e.message)
@@ -70,5 +81,45 @@ const handler: Handler = async (event: HandlerEvent, context: HandlerContext) =>
     body: "Not Found"
   }
 };
+
+type Product = {
+  id: string;
+  name: string;
+  url: string;
+  imageUrl: string;
+}
+type Photo = {
+  id: string;
+  url: string;
+  type: string;
+  fileName: string;
+  phoneNumber?: string;
+  email?: string;
+  taken?: string;
+  metadata: Record<string, string>;
+}
+type Theme = {
+  colorPrimary: string;
+  colorText: string;
+
+  logoUrl?: string;
+  iconUrl?: string;
+  backgroundUrl?: string;
+}
+type Settings = {
+  themes: {
+    light?: Theme,
+    dark?: Theme
+  }
+  actionText?: string;
+  actionUrl?: string;
+  shareTitle?: string;
+  shareMessage?: string;
+}
+type Microsite = {
+  photo: Photo;
+  settings: Settings;
+  usedProducts: Product[];
+}
 
 export { handler };
