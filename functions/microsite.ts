@@ -50,11 +50,16 @@ const handler: Handler = async (event: HandlerEvent, context: HandlerContext) =>
   } else if (segments.length == 2) {
 
     try {
-      const response = await http.get(`/microsite/${segments[0]}/${segments[1]}`);
+      const response = await http.get<Partial<Microsite>>(`/microsite/${segments[0]}/${segments[1]}`);
       
-      const microsite: any = await response.data ?? {};
-      microsite.photo ??= {};
-      microsite.settings ??= {}
+      const microsite: Microsite = {
+        photos: [],
+        settings: { themes: {} },
+        usedProducts: [],
+        ...response.data,
+      };
+      microsite.photos ??= [];
+      microsite.settings ??= { themes: {} }
       microsite.usedProducts ??= [];
       return await renderMicrosite(event.rawUrl, microsite);
     }
@@ -117,7 +122,7 @@ type Settings = {
   shareMessage?: string;
 }
 type Microsite = {
-  photo: Photo;
+  photos: Photo[];
   settings: Settings;
   usedProducts: Product[];
 }
