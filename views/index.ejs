@@ -123,7 +123,11 @@
         <ul class="splide__list">
           <% for(let i = 0; i < photos.length; i++) { %>
             <li class="splide__slide">
-              <img class="photo" alt="Your After Pose" src="<%= photos[i].url %>" />
+              <% if (photos[i].url.includes(".mp4")) { %>
+                <video class="photo" alt="Your After Pose" src="<%= photos[i].url %>" />
+              <% } else { %>
+                <img class="photo" alt="Your After Pose" src="<%= photos[i].url %>" />
+              <% } %>
             </li>
           <% } %>
         </ul>
@@ -270,7 +274,7 @@
       justify-content: center;
     }
 
-    .splide__slide img  {
+    .splide__slide .photo {
       height: 100%;
       max-height: 80vh;
     }
