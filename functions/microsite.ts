@@ -62,7 +62,7 @@ const handler: Handler = async (event: HandlerEvent, context: HandlerContext) =>
       microsite.photos = microsite.photos.map((p) => ({
         ...p, metadata: {
           ...p.metadata,
-          productIds: JSON.parse(p.metadata.productIds as any as string)
+          productIds: p.metadata?.productIds ? JSON.parse(p.metadata?.productIds as any as string) : []
         }
       }));
       return await renderMicrosite(event.rawUrl, microsite);
