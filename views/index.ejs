@@ -124,7 +124,7 @@
           <% for(let i = 0; i < photos.length; i++) { %>
             <li class="splide__slide">
               <% if (photos[i].url.includes(".mp4")) { %>
-                <video class="photo" alt="Your After Pose" src="<%= photos[i].url %>" autoplay loop muted />
+                <video class="photo" alt="Your After Pose" src="<%= photos[i].url %>" controls autoplay loop muted />
               <% } else { %>
                 <img class="photo" alt="Your After Pose" src="<%= photos[i].url %>" />
               <% } %>
