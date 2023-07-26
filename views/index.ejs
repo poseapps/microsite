@@ -124,7 +124,7 @@
           <% for(let i = 0; i < photos.length; i++) { %>
             <li class="splide__slide">
               <% if (photos[i].url.includes(".mp4")) { %>
-                <video class="photo" alt="Your After Pose" src="<%= photos[i].url %>" />
+                <video class="photo" alt="Your After Pose" src="<%= photos[i].url %>" autoplay loop muted />
               <% } else { %>
                 <img class="photo" alt="Your After Pose" src="<%= photos[i].url %>" />
               <% } %>
@@ -276,7 +276,7 @@
 
     .splide__slide .photo {
       height: 100%;
-      max-height: 80vh;
+      max-height: 90vh;
     }
 
     .splide:not( .is-overflow ) .splide__list {
