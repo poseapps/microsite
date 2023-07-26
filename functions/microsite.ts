@@ -59,7 +59,6 @@ const handler: Handler = async (event: HandlerEvent, context: HandlerContext) =>
         ...response.data,
       };
 
-      console.log(microsite.photos);
       microsite.photos = microsite.photos.map((p) => ({
         ...p, metadata: {
           ...p.metadata,
