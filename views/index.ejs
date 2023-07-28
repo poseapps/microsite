@@ -24,14 +24,33 @@
   <meta property="og:url" content="<%= url %>" />
   <meta property="og:title" content="After Pose — View your After Pose" />
   <meta property="og:description" content="View, Share, and Download your After Pose!" />
-  <meta property="og:image" content="<%= photo.url %>" />
+  <meta property="og:image" content="<%= photos[0].url %>" />
 
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image" />
   <meta property="twitter:url" content="<%= url %>" />
   <meta property="twitter:title" content="After Pose — View your After Pose" />
   <meta property="twitter:description" content="View, Share, and Download your After Pose!" />
-  <meta property="twitter:image" content="<%= photo.url %>" />
+  <meta property="twitter:image" content="<%= photos[0].url %>" />
+
+  <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" rel="stylesheet">
+  
+  <script>
+    const photos = JSON.parse('<%- JSON.stringify(photos) %>')
+    let url = photos[0].url;
+    let splide = null;
+    document.addEventListener( 'DOMContentLoaded', function() {
+      splide = new Splide('.splide', {
+        arrows: photos.length > 1
+      });
+      splide.mount();
+
+      splide.on('visible', function (slide) {
+        url = photos[slide.index].url;
+      });
+    });
+  </script>
 
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=<%= gtag %>"></script>
@@ -41,7 +60,7 @@
     gtag('js', new Date());
     const gtagConfig = {
       'account_id': "<%= accountId %>",
-      'photo_id': "<%= photo.id %>",
+      'group_id': "<%= photos[0].groupId %>",
     }
     gtag('config', '<%= gtag %>', gtagConfig);
   </script>
@@ -99,8 +118,20 @@
   </header>
 
   <main>
-    <section>
-      <img class="photo" alt="Your After Pose" src="<%= photo.url %>" />
+    <section class="splide" area-label="After Pose Photos">
+      <div class="splide__track">
+        <ul class="splide__list">
+          <% for(let i = 0; i < photos.length; i++) { %>
+            <li class="splide__slide">
+              <% if (photos[i].url.includes(".mp4")) { %>
+                <video class="photo" alt="Your After Pose" src="<%= photos[i].url %>" controls autoplay loop muted />
+              <% } else { %>
+                <img class="photo" alt="Your After Pose" src="<%= photos[i].url %>" />
+              <% } %>
+            </li>
+          <% } %>
+        </ul>
+      </div>
     </section>
     <section class="limited">
       <div class="flex-buttons">
@@ -145,8 +176,6 @@
   <% } %>
 
   <script>
-    const url = '<%= photo.url %>'
-
     async function share() {
       if (navigator.share) {
         try {
@@ -210,10 +239,10 @@
     }
 
     .button.is-primary {
-      color: var(--color-primary-text) !important; 
-      fill: var(--color-primary-text) !important; 
+      color: var(--color-primary-text, #fff) !important; 
+      fill: var(--color-primary-text, #fff) !important; 
       border-color: transparent !important; 
-      background-color: var(--color-primary) !important; 
+      background-color: var(--color-primary, #db1b74) !important; 
       box-shadow: none !important; 
     }
 
@@ -240,8 +269,18 @@
       align-items: center;
     }
 
-    .photo {
+    .splide__slide {
+      display: flex;
+      justify-content: center;
+    }
+
+    .splide__slide .photo {
+      height: 100%;
       max-height: 80vh;
+    }
+
+    .splide:not( .is-overflow ) .splide__list {
+      justify-content: center;
     }
 
     .flex-buttons {
