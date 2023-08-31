@@ -32,15 +32,16 @@ async function renderMicrosite(url: string, microsite: Microsite, accountId?: st
 // @ts-ignore
 const handler: Handler = async (event: HandlerEvent, context: HandlerContext) => {
   const segments = event.path.split('/').filter(x => Boolean(x));
-
   if (segments.length == 1) {
-    // TODO: implement preview, has default photo
-    // TODO: settings/theme can be provided via json query string
-    // if (segments[0] == "preview") {
-    //   return renderMicrosite(event.rawUrl, {
+    if (segments[0] == "preview") {
+      const data = event.queryStringParameters?.['data'];
+      if (data == null) throw new Error("missing data");
+      const dataObject = JSON.parse(atob(data));
 
-    //   })
-    // }
+      if (data == null) throw new Error("invalid data");
+
+      return renderMicrosite(event.rawUrl, dataObject as Microsite);
+    }
     return {
       statusCode: 301,
       headers: {
@@ -48,7 +49,6 @@ const handler: Handler = async (event: HandlerEvent, context: HandlerContext) =>
       }
     }
   } else if (segments.length == 2) {
-
     try {
       const response = await http.get<Partial<Microsite>>(`/microsite/${segments[0]}/${segments[1]}`);
       
