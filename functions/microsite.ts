@@ -40,7 +40,7 @@ const handler: Handler = async (event: HandlerEvent, context: HandlerContext) =>
 
       if (data == null) throw new Error("invalid data");
 
-      return renderMicrosite(event.rawUrl, dataObject as Microsite);
+      return renderMicrosite(event.rawUrl, { usedProducts: [], ...dataObject } as Microsite);
     }
     return {
       statusCode: 301,
