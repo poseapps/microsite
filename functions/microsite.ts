@@ -41,46 +41,40 @@ const handler: Handler = async (event: HandlerEvent, context: HandlerContext) =>
       if (data == null) throw new Error("invalid data");
 
       return renderMicrosite(event.rawUrl, { usedProducts: [], ...dataObject } as Microsite);
-    }
-    return {
-      statusCode: 301,
-      headers: {
-        'location': `${API_URL}/short/${segments[0]}`
+    } else if (segments[0].length == 36) {
+      try {
+        const response = await http.get<Partial<Microsite>>(`/microsite/share/${segments[0]}`);
+        
+        const microsite: Microsite = {
+          photos: [],
+          settings: { themes: {} },
+          usedProducts: [],
+          ...response.data,
+        };
+  
+        microsite.photos = microsite.photos.map((p) => ({
+          ...p, metadata: {
+            ...p.metadata,
+            productIds: p.metadata?.productIds ? JSON.parse(p.metadata?.productIds as any as string) : []
+          }
+        }));
+        return await renderMicrosite(event.rawUrl, microsite);
       }
-    }
-  } else if (segments.length == 2) {
-    try {
-      const response = await http.get<Partial<Microsite>>(`/microsite/${segments[0]}/${segments[1]}`);
-      
-      const microsite: Microsite = {
-        photos: [],
-        settings: { themes: {} },
-        usedProducts: [],
-        ...response.data,
-      };
-
-      microsite.photos = microsite.photos.map((p) => ({
-        ...p, metadata: {
-          ...p.metadata,
-          productIds: p.metadata?.productIds ? JSON.parse(p.metadata?.productIds as any as string) : []
+      catch (e) {
+        console.error(e.message)
+        return {
+          statusCode: 200,
+          headers: {
+            'content-type': 'text/html'
+          },
+          body: `
+          There was an error loading your after pose
+          <br><br>
+          ${API_URL}
+          <br>
+          ${e.message}
+          `
         }
-      }));
-      return await renderMicrosite(event.rawUrl, microsite);
-    }
-    catch (e) {
-      console.error(e.message)
-      return {
-        statusCode: 200,
-        headers: {
-          'content-type': 'text/html'
-        },
-        body: `
-        There was an error loading your after pose
-        <br><br>
-        ${API_URL}
-        <br>
-        ${e.message}
-        `
       }
     }
   }
