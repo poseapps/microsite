@@ -58,7 +58,7 @@
     />
 
     <script>
-      const photos = JSON.parse("<%- JSON.stringify(photos) %>");
+      const photos = JSON.parse(`<%- JSON.stringify(photos) %>`);
       let url = photos[0].url;
       let splide = null;
       document.addEventListener("DOMContentLoaded", function () {
