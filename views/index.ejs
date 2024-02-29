@@ -58,7 +58,7 @@
     />
 
     <script>
-      const photos = JSON.parse("<%- JSON.stringify(photos) %>");
+      const photos = JSON.parse(`<%- JSON.stringify(photos) %>`);
       let url = photos[0].url;
       let splide = null;
       document.addEventListener("DOMContentLoaded", function () {
@@ -206,6 +206,7 @@
             Download
           </button>
           <button
+            id="share-btn"
             onclick="share()"
             class="button is-primary is-medium is-fullwidth"
           >
