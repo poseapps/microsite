@@ -234,14 +234,15 @@
       </section>
       <% } %>
     </main>
-    <% if (usedProducts?.length) { %>
+    <% if (usedProducts?.length || productsBundleUrl) { %>
     <footer>
       <section class="limited">
         <hr class="is-divider" />
+        <% if (usedProducts?.length || productsBundleUrl) { %>
         <h3
           class="subtitle is-size-3 has-text-weight-semibold has-text-centered mb-2"
         >
-          Products Used
+          Products
         </h3>
         <div class="products">
           <% usedProducts.forEach(product => { %>
@@ -254,6 +255,16 @@
           </a>
           <% }) %>
         </div>
+        <% } %> <% if (productsBundleUrl) { %>
+        <div class="flex-buttons">
+          <a
+            href="<%= productsBundleUrl %>"
+            class="button is-primary is-medium is-fullwidth"
+          >
+            Buy Bundle
+          </a>
+        </div>
+        <% } %>
       </section>
     </footer>
     <% } %>
