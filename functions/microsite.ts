@@ -4,24 +4,26 @@ import axios from "axios";
 
 const API_URL = process.env["API_URL"] ?? "https://my.afterpose.com/api/v1";
 const CDN_URL = process.env["CDN_URL"] ?? "https://my.afterpose.com";
+const CSS_URL = process.env["CSS_URL"] ?? "https://my.afterpose.com";
 const GTAG = process.env["GTAG"] ?? "G-YK8MW2FYKN";
+const TB_TRACKER_TOKEN =
+  process.env["TB_TRACKER_TOKEN"] ??
+  "p.eyJ1IjogImE4YTAxM2FiLWE5Y2MtNDlkYi05ZmEzLWY5YmY1M2I0ZTE1YSIsICJpZCI6ICIxZmI2NDRjMi0xZWJmLTQ4ZDYtOTMzNC00NTNhNTIwMzg3N2QiLCAiaG9zdCI6ICJ1c19lYXN0In0.5mpqZy8RAI9G0TMBOmIl0-rtOI2TRfujUAdQRd6wM2M";
 
 const http = axios.create({
   baseURL: API_URL,
 });
 
-async function renderMicrosite(
-  url: string,
-  microsite: Microsite,
-  accountId?: string
-) {
+async function renderMicrosite(url: string, microsite: Microsite) {
   const rendered = await renderFile(
     "./views/index.ejs",
     {
+      TB_TRACKER_TOKEN,
+      CSS_URL: CSS_URL,
       url: url,
       cdnUrl: CDN_URL,
       gtag: GTAG,
-      accountId: accountId,
+      albumId: null,
       iconUrl:
         microsite.settings?.themes?.light?.iconUrl ??
         microsite.settings?.themes?.dark?.iconUrl ??
@@ -65,6 +67,8 @@ const handler: Handler = async (
         );
 
         const microsite: Microsite = {
+          shareId: segments[0],
+          shareSource: null,
           photos: [],
           settings: { themes: {} },
           usedProducts: [],
@@ -141,6 +145,10 @@ type Settings = {
   shareMessage?: string;
 };
 type Microsite = {
+  accountId: string;
+  albumId?: string;
+  shareId: string;
+  shareSource?: string;
   photos: Photo[];
   settings: Settings;
   usedProducts: Product[];
