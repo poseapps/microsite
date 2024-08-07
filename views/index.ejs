@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="<%= cdnUrl %>/assets/index-DpeVOz-n.css" />
+    <link rel="stylesheet" href="<%= CSS_URL %>" />
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Poppins"
@@ -90,6 +90,16 @@
       };
       gtag("config", "<%= gtag %>", gtagConfig);
     </script>
+    <script
+      defer
+      src="https://unpkg.com/@tinybirdco/flock.js"
+      data-host="https://api.us-east.tinybird.co"
+      data-token="<%= TB_TRACKER_TOKEN %>"
+      tb_account_id="<%= accountId %>"
+      tb_album_id="<%= accountId %>"
+      tb_share_id="<%= shareId %>"
+      tb_share_source="<%= shareSource %>"
+    ></script>
   </head>
 
   <body>
@@ -234,14 +244,15 @@
       </section>
       <% } %>
     </main>
-    <% if (usedProducts?.length) { %>
+    <% if (usedProducts?.length || productsBundleUrl) { %>
     <footer>
       <section class="limited">
         <hr class="is-divider" />
+        <% if (usedProducts?.length || productsBundleUrl) { %>
         <h3
           class="subtitle is-size-3 has-text-weight-semibold has-text-centered mb-2"
         >
-          Products Used
+          Products
         </h3>
         <div class="products">
           <% usedProducts.forEach(product => { %>
@@ -254,6 +265,16 @@
           </a>
           <% }) %>
         </div>
+        <% } %> <% if (productsBundleUrl) { %>
+        <div class="flex-buttons mt-2">
+          <a
+            href="<%= productsBundleUrl %>"
+            class="button is-primary is-medium is-fullwidth"
+          >
+            Buy Products
+          </a>
+        </div>
+        <% } %>
       </section>
     </footer>
     <% } %>
