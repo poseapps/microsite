@@ -19,7 +19,7 @@ async function renderMicrosite(url: string, microsite: Microsite) {
     "./views/index.ejs",
     {
       TB_TRACKER_TOKEN,
-      CSS_URL: CSS_URL,
+      CSS_URL,
       url: url,
       cdnUrl: CDN_URL,
       gtag: GTAG,
