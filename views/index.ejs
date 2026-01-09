@@ -96,9 +96,9 @@
       data-host="https://api.us-east.tinybird.co"
       data-token="<%= TB_TRACKER_TOKEN %>"
       tb_account_id="<%= accountId %>"
-      tb_album_id="<%= accountId %>"
-      tb_share_id="<%= shareId %>"
-      tb_share_source="<%= shareSource %>"
+      tb_album_id="<%= accountId || '' %>"
+      tb_share_id="<%= shareId || '' %>"
+      tb_share_source="<%= shareSource || '' %>"
     ></script>
   </head>
 

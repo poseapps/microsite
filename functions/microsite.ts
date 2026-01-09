@@ -68,10 +68,11 @@ const handler: Handler = async (
 
         const microsite: Microsite = {
           shareId: segments[0],
-          shareSource: null,
+          shareSource: "",
           photos: [],
           settings: { themes: {} },
           usedProducts: [],
+          accountId: "",
           ...response.data,
         };
 
