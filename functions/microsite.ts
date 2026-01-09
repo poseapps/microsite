@@ -57,7 +57,12 @@ const handler: Handler = async (
       if (data == null) throw new Error("invalid data");
 
       return renderMicrosite(event.rawUrl, {
+        shareId: "",
+        shareSource: "",
+        photos: [],
+        settings: { themes: {} },
         usedProducts: [],
+        accountId: "",
         ...dataObject,
       } as Microsite);
     } else if (segments[0].length == 36) {
