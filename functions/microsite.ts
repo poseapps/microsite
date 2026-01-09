@@ -63,6 +63,7 @@ const handler: Handler = async (
         settings: { themes: {} },
         usedProducts: [],
         accountId: "",
+        productsBundleUrl: "",
         ...dataObject,
       } as Microsite);
     } else if (segments[0].length == 36) {
